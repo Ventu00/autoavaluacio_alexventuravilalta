@@ -1,1 +1,11 @@
+.navbar{
+    background-color: #31403e9f;
+    color: rgb(255, 255, 255);
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+  }
+  
 
+a{
+    color: rgb(255, 255, 255);
+}

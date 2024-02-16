@@ -9,20 +9,20 @@
 </head>
 <body style="background-color: #060606;">
 
-<nav class="navbar navbar-expand-lg bg-body-secondary">
+<nav class="navbar navbar-expand-lg">
     <div class="container-fluid">
         <a class="navbar-brand" href="#"><img class="logo" src="images/logo.png" alt="Logo"></a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
+        <button class="navbar-toggler text-bg-light " type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon text-light"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+        <div class="collapse navbar-collapse text-light" id="navbarNavDropdown">
             <ul class="navbar-nav">
                 <!-- Main data menu -->
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <li class="nav-item dropdown text-light">
+                    <a class="nav-link dropdown-toggle text-light" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         Master Data
                     </a>
-                    <ul class="dropdown-menu">
+                    <ul class="dropdown-menu bg-body-emphasis text-light">
                         <li><a class="dropdown-item" href="#">User Types</a></li>
                         <li><a class="dropdown-item" href="#">Users</a></li>
                         <li><a class="dropdown-item" href="#">Cycles</a></li>
@@ -36,11 +36,11 @@
                 </li>
 
                 <!-- Professors menu -->
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <li class="nav-item dropdown text-light bg-body-emphasis">
+                    <a class="nav-link dropdown-toggle text-light" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         Professors
                     </a>
-                    <ul class="dropdown-menu">
+                    <ul class="dropdown-menu text-light bg-body-emphasis">
                         <li><a class="dropdown-item" href="#">Assign Students</a></li>
                         <li><a class="dropdown-item" href="#">Learning Outcomes</a></li>
                         <li><a class="dropdown-item" href="#">Evaluation Criteria</a></li>
@@ -51,13 +51,13 @@
 
                 <!-- Students menu -->
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Students</a>
+                    <a class="nav-link text-light" href="#">Students</a>
                 </li>
             </ul>
         </div>
 
         <!-- Right-aligned text with your name -->
-        <div class="navbar-text ms-auto">
+        <div class="navbar-text ms-auto text-light">
         Àlex
         </div>
     </div>
