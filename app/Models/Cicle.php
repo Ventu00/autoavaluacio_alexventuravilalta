@@ -13,7 +13,10 @@ class Cicle extends Model
     //public $incrementing = true;
     public $timestamps = false;
     
-
     
+    public function moduls()
+    {
+        return $this->hasMany(Moduls::class, 'cicles_id');
+    }
 
 }
