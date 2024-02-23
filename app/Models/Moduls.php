@@ -18,4 +18,13 @@ class Moduls extends Model
     {
         return $this->hasMany(Cicle::class, 'cicles_id');
     }
+
+
+    public function usuaris()
+    {
+        return $this->belongsToMany(usuaris::class, 'usuaris_has_moduls', 'moduls_id', 'usuaris_id');
+    }
+
+
 }
+ 
