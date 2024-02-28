@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Moduls extends Model
+class Modul extends Model
 {
     use HasFactory;
     protected $table = 'moduls';
@@ -16,13 +16,13 @@ class Moduls extends Model
 
     public function cicle()
     {
-        return $this->hasMany(Cicle::class, 'cicles_id');
+        return $this->belongsTo(Cicle::class, 'cicles_id');
     }
 
 
     public function usuaris()
     {
-        return $this->belongsToMany(usuaris::class, 'usuaris_has_moduls', 'moduls_id', 'usuaris_id');
+        return $this->belongsToMany(Usuari::class, 'usuaris_has_moduls', 'moduls_id', 'usuaris_id');
     }
 
 
