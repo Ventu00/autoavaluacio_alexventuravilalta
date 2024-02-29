@@ -5,17 +5,18 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Moduls extends Model
+class Tipus_usuari extends Model
 {
     use HasFactory;
-    protected $table = 'moduls';
+    protected $table = 'tipus_usuaris';
     //protected $primaryKey = 'id';
     //public $incrementing = true;
     public $timestamps = false;
 
 
-    public function cicle()
+
+    public function usuari()
     {
-        return $this->hasMany(Cicle::class, 'cicles_id');
+        return $this->hasMany(Usuari::class, 'tipus_usuaris_id');
     }
 }

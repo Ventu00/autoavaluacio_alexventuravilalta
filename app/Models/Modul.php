@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Rubriques extends Model
+class Modul extends Model
 {
     use HasFactory;
     protected $table = 'moduls';
@@ -14,8 +14,17 @@ class Rubriques extends Model
     public $timestamps = false;
 
 
-    public function criteris_avaluacions()
+    public function cicle()
     {
-        return $this->belongsTo(Criteris_avaluacio_id::class, 'criteris_avaluacio_id');
-    } 
+        return $this->belongsTo(Cicle::class, 'cicles_id');
+    }
+
+
+    public function usuaris()
+    {
+        return $this->belongsToMany(Usuari::class, 'usuaris_has_moduls', 'moduls_id', 'usuaris_id');
+    }
+
+
 }
+ 
