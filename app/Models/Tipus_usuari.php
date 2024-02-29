@@ -5,17 +5,18 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Rubriques extends Model
+class Tipus_usuari extends Model
 {
     use HasFactory;
-    protected $table = 'moduls';
+    protected $table = 'tipus_usuaris';
     //protected $primaryKey = 'id';
     //public $incrementing = true;
     public $timestamps = false;
 
 
-    public function criteris_avaluacions()
+
+    public function usuari()
     {
-        return $this->belongsTo(Criteris_avaluacio_id::class, 'criteris_avaluacio_id');
-    } 
+        return $this->hasMany(Usuari::class, 'tipus_usuaris_id');
+    }
 }
