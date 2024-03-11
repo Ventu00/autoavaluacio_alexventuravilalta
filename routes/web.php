@@ -1,6 +1,22 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CicleController;
+use App\Http\Controllers\ModulsController;
+use App\Http\Controllers\UsuarisController;
+use App\Http\Controllers\RubriquesController;
+use App\Http\Controllers\TipusUsuarisController;
+use App\Http\Controllers\CriterisAutoavaluacioController;
+use App\Http\Controllers\ResultatsAprenentatgeController;
+
+Route::resource('cicle', CicleController::class);
+Route::resource('criteris', CriterisAutoavaluacioController::class);
+Route::resource('modul', ModulsController::class);
+Route::resource('resultats', ResultatsAprenentatgeController::class);
+Route::resource('rubriques', RubriquesController::class);
+Route::resource('tipus', TipusUsuarisController::class);
+Route::resource('usuari', UsuarisController::class);
+
 
 /*
 |--------------------------------------------------------------------------
@@ -16,3 +32,4 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
