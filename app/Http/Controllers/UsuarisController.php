@@ -35,7 +35,16 @@ class UsuarisController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $usuari = new Usuari();
+
+        $usuari->nom_usuari = $request->input('nom_usuari');
+        $usuari->contrasenya = $request->input('contrasenya');
+        $usuari->correu = $request->input('correu');
+        $usuari->nom = $request->input('nom');
+        $usuari->cognom = $request->input('cognom');
+        $usuari->actiu = $request->input('actiu');
+        $usuari->Tipus = $request->input('Tipus');
+
     }
 
     /**
