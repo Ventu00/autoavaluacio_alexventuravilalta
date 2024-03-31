@@ -2,84 +2,65 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Usuaris;
+use App\Models\Usuari;
 use Illuminate\Http\Request;
 
 class UsuarisController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
-        //
+        $usuarios = Usuari::all();
+        return view('usuaris\index', compact('usuarios'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
-        //
+        return view('usuarios.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'nom_usuari' => 'required',
+            'contrasenya' => 'required',
+            'correu' => 'required|email',
+            'nom' => 'required',
+            'cognom' => 'required',
+            'actiu' => 'required',
+            'tipus_usuaris_id' => 'required'
+        ]);
+
+        Usuaris::create($request->all());
+
+        return redirect()->route('usuarios.index')->with('success', 'Usuario creado correctamente');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Usuaris  $usuaris
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Usuaris $usuaris)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Usuaris  $usuaris
-     * @return \Illuminate\Http\Response
-     */
     public function edit(Usuaris $usuaris)
     {
-        //
+        return view('usuarios.edit', compact('usuaris'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Usuaris  $usuaris
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, Usuaris $usuaris)
     {
-        //
+        $request->validate([
+            'nom_usuari' => 'required',
+            'contrasenya' => 'required',
+            'correu' => 'required|email',
+            'nom' => 'required',
+            'cognom' => 'required',
+            'actiu' => 'required',
+            'tipus_usuaris_id' => 'required'
+        ]);
+
+        $usuaris->update($request->all());
+
+        return redirect()->route('usuarios.index')->with('success', 'Usuario actualizado correctamente');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Usuaris  $usuaris
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(Usuaris $usuaris)
     {
-        //
+        $usuaris->delete();
+
+        return redirect()->route('usuarios.index')->with('success', 'Usuario eliminado correctamente');
     }
 }
