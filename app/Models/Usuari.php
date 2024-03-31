@@ -23,8 +23,6 @@ class Usuari extends Model
         return $this->belongsToMany(Criteris_avaluacions::class, 'alumnes_has_criteris_avaluacio', 'usuaris_id', 'criteris_avaluacio_id');
     }
 
-
-
     public function tipus_usuaris()
     {
         return $this->hasMany(Tipus_usuaris::class, 'tipus_usuaris_id');

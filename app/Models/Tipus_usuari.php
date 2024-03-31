@@ -14,7 +14,6 @@ class Tipus_usuari extends Model
     public $timestamps = false;
 
 
-
     public function usuari()
     {
         return $this->hasMany(Usuari::class, 'tipus_usuaris_id');
