@@ -9,7 +9,8 @@ class UsuarisController extends Controller
 {
     public function index()
     {
-        $usuarios = Usuari::all();
+        $usuarios = Usuari::paginate(4)
+        ->withQueryString();
         return view('usuaris\index', compact('usuarios'));
     }
 
