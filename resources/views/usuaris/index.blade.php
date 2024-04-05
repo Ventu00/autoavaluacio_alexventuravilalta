@@ -21,12 +21,17 @@
           <td>{{ $usuario->correu }}</td>
           <td>{{ $usuario->nom }}</td>
           <td>{{ $usuario->cognom }}</td>
-          <td>{{ $usuario->actiu }}</td>
+          <td>
+    <input type="checkbox" disabled {{ $usuario->activo_checkbox }}>
+</td>
           <td>{{ $usuario->tipus_usuaris_id }}</td>
 
           <td>
-            <form action="">
-            <button type="button" class="btn btn-danger">
+            <form
+             action="{{ action([App\Http\Controllers\UsuarisController::class, 'destroy'], ['usuari'=> $usuario->id]) }}" method="POST">
+              @csrf
+              @method('DELETE')
+            <button type="submit" class="btn btn-danger">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
                   <path d="M3.5 2.5a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5V3h-9v-.5zm9-1a1.5 1.5 0 0 1 1.5 1.5V3a2.5 2.5 0 0 1-2.5 2.5h-8A2.5 2.5 0 0 1 1 3V2.5A1.5 1.5 0 0 1 2.5 1h8zM5 7V6h1v7a1 1 0 0 0 1 1h4a1 1 0 0 0 1-1V6h1v1h-8zM3 6v7a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V6H3z"/>
                 </svg>

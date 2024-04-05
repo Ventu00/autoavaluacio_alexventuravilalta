@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Usuari;
 use Illuminate\Http\Request;
+use App\Http\Controllers\UsuarisController;
 
 class UsuarisController extends Controller
 {
@@ -11,6 +12,9 @@ class UsuarisController extends Controller
     {
         $usuarios = Usuari::paginate(4)
         ->withQueryString();
+        foreach ($usuarios as $usuario) {
+            $usuario->activo_checkbox = $usuario->actiu ? 'checked' : '';
+        }
         return view('usuaris\index', compact('usuarios'));
     }
 
@@ -21,47 +25,42 @@ class UsuarisController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
-            'nom_usuari' => 'required',
-            'contrasenya' => 'required',
-            'correu' => 'required|email',
-            'nom' => 'required',
-            'cognom' => 'required',
-            'actiu' => 'required',
-            'tipus_usuaris_id' => 'required'
-        ]);
+        try {
+            $usuarios = new Usuari();
+            $usuarios->nom_usuari = $request->input('nom_usuari');
+            $usuarios->contrasenya= $request->input('contrasenya');
+            $usuarios->correu= $request->input('correu');
+            $usuarios->nom= $request->input('nom');
+            $usuarios->cognom= $request->input('cognom');
+            $usuarios->actiu = $request->input('activo');
+            $usuarios->tipus_usuaris_id= $request->input('tipus_usuaris_id');
+    
+            $usuarios->actiu = ($request->input('activo') == 'activo');
+            $usuarios->save();
+            return redirect()->action([UsuarisController::class, 'index']);
 
-        Usuaris::create($request->all());
-
-        return redirect()->route('usuarios.index')->with('success', 'Usuario creado correctamente');
+        } catch (Exception $e) {
+            // Catching the exception and handling it
+            echo "Error: " . $e->getMessage();
+        }
+        
+    
     }
 
-    public function edit(Usuaris $usuaris)
+    public function edit(Usuaris $usuarios)
     {
-        return view('usuarios.edit', compact('usuaris'));
     }
 
-    public function update(Request $request, Usuaris $usuaris)
+    public function update(Request $request, Usuaris $usuarios)
     {
-        $request->validate([
-            'nom_usuari' => 'required',
-            'contrasenya' => 'required',
-            'correu' => 'required|email',
-            'nom' => 'required',
-            'cognom' => 'required',
-            'actiu' => 'required',
-            'tipus_usuaris_id' => 'required'
-        ]);
 
-        $usuaris->update($request->all());
-
-        return redirect()->route('usuarios.index')->with('success', 'Usuario actualizado correctamente');
     }
+        
 
-    public function destroy(Usuaris $usuaris)
+    public function destroy(Usuaris $usuarios, Request $request)
     {
-        $usuaris->delete();
+        $usuarios->delete();
 
-        return redirect()->route('usuarios.index')->with('success', 'Usuario eliminado correctamente');
+        return redirect()->action([UsuarisController::class, 'index']);
     }
 }
