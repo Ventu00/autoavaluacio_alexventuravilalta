@@ -28,3 +28,5 @@ Route::get('/', function () {
 Route::resource('usuari',UsuarisController::class);
 Route::resource('Tipus_usuari',TipusUsuarisController::class);
 Route::post('/usuarios', [UsuarisController::class, 'store']);
+
+Route::resource('usuarios', UsuarisController::class);
