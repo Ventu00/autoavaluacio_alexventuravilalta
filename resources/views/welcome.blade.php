@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
 <link rel="icon" type="image/jpg" href="images/logo.ico"/>
@@ -24,7 +25,7 @@
                     </a>
                     <ul class="dropdown-menu bg-body-emphasis text-light">
                         <li><a class="dropdown-item" href="#">User Types</a></li>
-                        <li><a class="dropdown-item" href="#">Users</a></li>
+                        <li><a class="dropdown-item" href="{{ url('usuari') }}">Users</a></li>
                         <li><a class="dropdown-item" href="#">Cycles</a></li>
                         <li><a class="dropdown-item" href="#">Modules</a></li>
                         <li class="divider"></li>
