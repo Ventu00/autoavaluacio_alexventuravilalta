@@ -57,14 +57,12 @@
             </ul>
         </div>
 
-        <!-- Right-aligned text with your name -->
         <div class="navbar-text ms-auto text-light">
         Àlex
         </div>
     </div>
 </nav>
 
-<!-- Your content section goes here -->
 
 </body>
 </html>

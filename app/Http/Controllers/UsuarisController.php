@@ -56,7 +56,6 @@ class UsuarisController extends Controller
             return redirect()->action([UsuarisController::class, 'index']);
 
         } catch (Exception $e) {
-            // Catching the exception and handling it
             echo "Error: " . $e->getMessage();
         }
         
@@ -75,7 +74,6 @@ class UsuarisController extends Controller
     public function update(Request $request, $usuari)
 {
     try {
-        // Buscar el usuario por su ID
         $usuario = Usuari::findOrFail($usuari);
         
         // Actualizar los campos con los nuevos valores del formulario
@@ -89,18 +87,14 @@ class UsuarisController extends Controller
         // Verificar si se proporcionó una nueva contraseña
         $nuevaContrasenya = $request->input('contrasenya');
         if ($nuevaContrasenya) {
-            // Encriptar la nueva contraseña antes de almacenarla
             $usuario->contrasenya = bcrypt($nuevaContrasenya);
         }
 
-        // Guardar los cambios en la base de datos
         $usuario->save();
         
-        // Redirigir a la página de índice de usuarios
         return redirect()->action([UsuarisController::class, 'index']);
 
     } catch (Exception $e) {
-        // Capturar la excepción y manejarla
         echo "Error: " . $e->getMessage();
     }
 }

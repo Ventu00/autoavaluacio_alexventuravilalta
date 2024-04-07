@@ -48,7 +48,6 @@
                         <option value="1" {{ old('tipus_usuaris_id') == 1 ? 'selected' : '' }}>Tipo 1</option>
                         <option value="2" {{ old('tipus_usuaris_id') == 2 ? 'selected' : '' }}>Tipo 2</option>
                         <option value="3" {{ old('tipus_usuaris_id') == 3 ? 'selected' : '' }}>Tipo 3</option>
-                        <!-- Agrega aquí más opciones si es necesario -->
                     </select>
                 </div>
                 <button type="submit" class="btn btn-primary">Crear</button>

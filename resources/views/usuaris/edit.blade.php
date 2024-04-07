@@ -54,7 +54,6 @@
                             <option value="1">Tipo 1</option>
                             <option value="2">Tipo 2</option>
                             <option value="3">Tipo 3</option>
-                            <!-- Agrega aquí más opciones si es necesario -->
                         </select>
                     </div>
                     <button type="submit" class="btn btn-primary">Guardar</button>
