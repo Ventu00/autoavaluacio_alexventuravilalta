@@ -3,8 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Usuari;
+use App\Clases\Utilitat;
 use Illuminate\Http\Request;
+use Illuminate\Database\QueryException;
 use App\Http\Controllers\UsuarisController;
+
+@include('partials.mensajes');
 
 class UsuarisController extends Controller
 {
@@ -28,7 +32,7 @@ class UsuarisController extends Controller
         try {
             $usuarios = new Usuari();
             $usuarios->nom_usuari = $request->input('nom_usuari');
-            $usuarios->contrasenya= $request->input('contrasenya');
+            $usuarios->contrasenya = bcrypt($request->input('contrasenya')); // Aquí encriptamos la contraseña
             $usuarios->correu= $request->input('correu');
             $usuarios->nom= $request->input('nom');
             $usuarios->cognom= $request->input('cognom');
@@ -36,7 +40,19 @@ class UsuarisController extends Controller
             $usuarios->tipus_usuaris_id= $request->input('tipus_usuaris_id');
     
             $usuarios->actiu = ($request->input('activo') == 'activo');
-            $usuarios->save();
+
+            try{
+                $usuarios->save();
+                return redirect()->action([UsuarisController::class, 'index']);
+
+            }catch(QueryException $ex){
+                $mensaje = Utilitat::errorMessafe($ex);
+                $request->session()->flash('error', $mensaje);
+                $response = redirect()->action([UsuarisController::class, 'create'])->withInput();
+            };
+
+
+
             return redirect()->action([UsuarisController::class, 'index']);
 
         } catch (Exception $e) {
@@ -57,45 +73,58 @@ class UsuarisController extends Controller
     }
     
     public function update(Request $request, $usuari)
-    {
-        try {
-            // Buscar el usuario por su ID
-            $usuario = Usuari::findOrFail($usuari);
-            
-            // Actualizar los campos con los nuevos valores del formulario
-            $usuario->nom_usuari = $request->input('nom_usuari');
-            $usuario->contrasenya = $request->input('contrasenya');
-            $usuario->correu = $request->input('correu');
-            $usuario->nom = $request->input('nom');
-            $usuario->cognom = $request->input('cognom');
-            $usuario->actiu = $request->input('activo');
-            $usuario->tipus_usuaris_id = $request->input('tipus_usuaris_id');
-    
-            // Actualizar el estado activo
-            $usuario->actiu = ($request->input('activo') == 'activo');
-    
-            // Guardar los cambios en la base de datos
-            $usuario->save();
-            
-            // Redirigir a la página de índice de usuarios
-            return redirect()->action([UsuarisController::class, 'index']);
-    
-        } catch (Exception $e) {
-            // Capturar la excepción y manejarla
-            echo "Error: " . $e->getMessage();
+{
+    try {
+        // Buscar el usuario por su ID
+        $usuario = Usuari::findOrFail($usuari);
+        
+        // Actualizar los campos con los nuevos valores del formulario
+        $usuario->nom_usuari = $request->input('nom_usuari');
+        $usuario->correu = $request->input('correu');
+        $usuario->nom = $request->input('nom');
+        $usuario->cognom = $request->input('cognom');
+        $usuario->actiu = $request->input('activo');
+        $usuario->tipus_usuaris_id = $request->input('tipus_usuaris_id');
+
+        // Verificar si se proporcionó una nueva contraseña
+        $nuevaContrasenya = $request->input('contrasenya');
+        if ($nuevaContrasenya) {
+            // Encriptar la nueva contraseña antes de almacenarla
+            $usuario->contrasenya = bcrypt($nuevaContrasenya);
         }
+
+        // Guardar los cambios en la base de datos
+        $usuario->save();
+        
+        // Redirigir a la página de índice de usuarios
+        return redirect()->action([UsuarisController::class, 'index']);
+
+    } catch (Exception $e) {
+        // Capturar la excepción y manejarla
+        echo "Error: " . $e->getMessage();
     }
+}
+
     
     
 
         
-
     public function destroy(Request $request, $usuari)
     {
         $usuario = Usuari::findOrFail($usuari);
-        $usuario->delete();
+
+        try {
+    
+            $usuario->delete();
+            $request->session()->flash('mensaje', 'El usuario ha sido eliminado correctamente.');
+        } catch (QueryException $ex) {
+            $mensaje = Utilitat::errorMessage($ex);
+            $request->session()->flash('error', $mensaje);
+        }
+    
         return redirect()->action([UsuarisController::class, 'index']);
     }
+    
     
     
 }

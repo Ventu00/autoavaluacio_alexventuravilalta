@@ -12,7 +12,7 @@
         
         <!-- Formulario para crear usuario -->
         <div class="card mt-4">
-            <div class="card-header">Crear Usuario</div>
+            <div class="card-header">Editar Usuario</div>
             <div class="card-body">
             <form action="{{ route('usuarios.update', ['usuario' => $usuario->id]) }}" method="POST">
     @csrf
@@ -22,9 +22,10 @@
                         <input type="text" class="form-control" id="nombreUsuario" name="nom_usuari">
                     </div>
                     <div class="mb-3">
-                        <label for="contrasenya" class="form-label">Contraseña</label>
-                        <input type="password" class="form-control" id="contrasenya" name="contrasenya">
-                    </div>
+                <label for="contrasenya" class="form-label">Contraseña</label>
+                <input type="password" class="form-control" id="contrasenya" name="contrasenya">
+            </div>
+
                     <div class="mb-3">
                         <label for="correo" class="form-label">Correo</label>
                         <input type="email" class="form-control" id="correo" name="correu">

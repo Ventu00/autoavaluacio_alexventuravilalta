@@ -1,6 +1,8 @@
 @extends('layouts.principal')
 
 @section('contenido')
+@include('partials.mensajes')
+
 <table class="table table-dark">
   <thead>
     <tr>
