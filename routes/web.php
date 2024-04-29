@@ -30,3 +30,14 @@ Route::resource('Tipus_usuari',TipusUsuarisController::class);
 Route::post('/usuarios', [UsuarisController::class, 'store']);
 
 Route::resource('usuarios', UsuarisController::class);
+Route::get('/login', [UsuarisController::class, 'showLogin'])->name('login');
+Route::post('/login', [UsuarisController::class, 'login']);
+
+
+Route::middleware(['auth'])->group(function(){
+    Route::get('/home', function () {
+        $user = Auth::user();
+
+        return view('home', compact('user'));
+    });
+});

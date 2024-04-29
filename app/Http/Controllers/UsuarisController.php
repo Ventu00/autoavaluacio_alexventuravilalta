@@ -12,6 +12,36 @@ use App\Http\Controllers\UsuarisController;
 
 class UsuarisController extends Controller
 {
+
+public function showLogin()
+{
+    return view('auth.login');
+}
+
+public function login(Request $request) {
+    $nom_usuari = $request->input('nom_usuari');
+    $password = $request->input('contrasenya');
+
+    $user = Usuari::where('nom_usuari', $nom_usuari)->first();
+
+    if ($user != null && Hash::check($password, $user->password) ) {
+       Auth::login($user);
+       $response = redirect('/home');
+    }else {
+        $request->session()->flash('error', 'Usuario o contraseña incorrectos');
+        $response = redirect('/login')->withInput();
+    }
+    return $response;
+}
+public function logout(){
+    Auth::logout();
+    return redirect('/login');
+}
+
+
+
+
+
     public function index()
     {
         $usuarios = Usuari::paginate(4)
