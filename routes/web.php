@@ -37,7 +37,6 @@ Route::post('/login', [UsuarisController::class, 'login']);
 Route::middleware(['auth'])->group(function(){
     Route::get('/home', function () {
         $user = Auth::user();
-
         return view('home', compact('user'));
     });
 });

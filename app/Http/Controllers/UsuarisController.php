@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Usuari;
 use App\Clases\Utilitat;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Database\QueryException;
 use App\Http\Controllers\UsuarisController;
 
@@ -24,7 +26,7 @@ public function login(Request $request) {
 
     $user = Usuari::where('nom_usuari', $nom_usuari)->first();
 
-    if ($user != null && Hash::check($password, $user->password) ) {
+    if ($user != null && Hash::check($password, $user->contrasenya) ) { //el error esta en que no accede al home
        Auth::login($user);
        $response = redirect('/home');
     }else {

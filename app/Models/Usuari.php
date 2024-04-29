@@ -30,6 +30,6 @@ class Usuari extends Authenticatable
 
     public function tipus_usuaris()
     {
-        return $this->hasMany(Tipus_usuaris::class, 'tipus_usuaris_id');
+        return $this->belongsTo(Tipus_usuari::class, 'tipus_usuaris_id');
     }
 }

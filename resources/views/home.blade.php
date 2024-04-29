@@ -1,15 +1,13 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
-<link rel="icon" type="image/jpg" href="images/logo.ico"/>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Autoevaluation-AlexVentura</title>
+    <title>Home</title>
     @vite(['resources/css/app.css','resources/css/app.scss', 'resources/js/app.js'])
-</head>
-<body style="background-color: #060606;">
 
+</head>
+<body>
 <nav class="navbar navbar-expand-lg">
     <div class="container-fluid">
         <a class="navbar-brand" href="#"><img class="logo" src="images/logo.png" alt="Logo"></a>
@@ -20,6 +18,7 @@
             <ul class="navbar-nav">
                 <!-- Main data menu -->
                 @if(Auth::check() && Auth::user()->tipus_usuaris->tipus == 'Administrador')
+
                 <li class="nav-item dropdown text-light">
                     <a class="nav-link dropdown-toggle text-light" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         Master Data
@@ -69,7 +68,8 @@
         </div>
     </div>
 </nav>
-
-
+    <br>
+    <h1>Bienvenido, {{ $user->nom }}</h1>
+    <p>¡Has iniciado sesión correctamente!</p>
 </body>
 </html>
