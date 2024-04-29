@@ -4,10 +4,15 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
 
-class Usuari extends Model
+class Usuari extends Authenticatable
 {
-    use HasFactory;
+
+
+    use HasApiTokens, HasFactory, Notifiable;
     protected $table = 'usuaris';
     //protected $primaryKey = 'id';
     //public $incrementing = true;
@@ -23,10 +28,8 @@ class Usuari extends Model
         return $this->belongsToMany(Criteris_avaluacions::class, 'alumnes_has_criteris_avaluacio', 'usuaris_id', 'criteris_avaluacio_id');
     }
 
-
-
     public function tipus_usuaris()
     {
-        return $this->hasMany(Tipus_usuaris::class, 'tipus_usuaris_id');
+        return $this->belongsTo(Tipus_usuari::class, 'tipus_usuaris_id');
     }
 }

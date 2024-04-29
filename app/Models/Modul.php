@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Resultats_aprenentatge;
 
 class Modul extends Model
 {
@@ -24,7 +25,10 @@ class Modul extends Model
     {
         return $this->belongsToMany(Usuari::class, 'usuaris_has_moduls', 'moduls_id', 'usuaris_id');
     }
-
-
+    
+    public function resultatsaprenentatges()
+    {
+        return $this->hasMany(Resultats_aprenentatge::class, 'moduls_id');
+    }
+    
 }
- 

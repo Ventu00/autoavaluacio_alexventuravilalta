@@ -2,84 +2,155 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Usuaris;
+use App\Models\Usuari;
+use App\Clases\Utilitat;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Database\QueryException;
+use App\Http\Controllers\UsuarisController;
+
+@include('partials.mensajes');
 
 class UsuarisController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
+public function showLogin()
+{
+    return view('auth.login');
+}
+
+public function login(Request $request) {
+    $nom_usuari = $request->input('nom_usuari');
+    $password = $request->input('contrasenya');
+
+    $user = Usuari::where('nom_usuari', $nom_usuari)->first();
+
+    if ($user != null && Hash::check($password, $user->contrasenya) ) { //el error esta en que no accede al home
+       Auth::login($user);
+       $response = redirect('/home');
+    }else {
+        $request->session()->flash('error', 'Usuario o contraseña incorrectos');
+        $response = redirect('/login')->withInput();
+    }
+    return $response;
+}
+public function logout(){
+    Auth::logout();
+    return redirect('/login');
+}
+
+
+
+
+
     public function index()
     {
-        //
+        $usuarios = Usuari::paginate(4)
+        ->withQueryString();
+        foreach ($usuarios as $usuario) {
+            $usuario->activo_checkbox = $usuario->actiu ? 'checked' : '';
+        }
+        return view('usuaris\index', compact('usuarios'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
-        //
+        return view('usuaris\create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-        //
+        try {
+            $usuarios = new Usuari();
+            $usuarios->nom_usuari = $request->input('nom_usuari');
+            $usuarios->contrasenya = bcrypt($request->input('contrasenya')); // Aquí encriptamos la contraseña
+            $usuarios->correu= $request->input('correu');
+            $usuarios->nom= $request->input('nom');
+            $usuarios->cognom= $request->input('cognom');
+            $usuarios->actiu = $request->input('activo');
+            $usuarios->tipus_usuaris_id= $request->input('tipus_usuaris_id');
+    
+            $usuarios->actiu = ($request->input('activo') == 'activo');
+
+            try{
+                $usuarios->save();
+                return redirect()->action([UsuarisController::class, 'index']);
+
+            }catch(QueryException $ex){
+                $mensaje = Utilitat::errorMessafe($ex);
+                $request->session()->flash('error', $mensaje);
+                $response = redirect()->action([UsuarisController::class, 'create'])->withInput();
+            };
+
+
+
+            return redirect()->action([UsuarisController::class, 'index']);
+
+        } catch (Exception $e) {
+            echo "Error: " . $e->getMessage();
+        }
+        
+    
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Usuaris  $usuaris
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Usuaris $usuaris)
+    public function edit($id)
     {
-        //
+        // Buscar el usuario por su ID
+        $usuario = Usuari::findOrFail($id);
+        
+        // Pasar el usuario a la vista
+        return view('usuaris.edit', ['usuario' => $usuario]);
     }
+    
+    public function update(Request $request, $usuari)
+{
+    try {
+        $usuario = Usuari::findOrFail($usuari);
+        
+        // Actualizar los campos con los nuevos valores del formulario
+        $usuario->nom_usuari = $request->input('nom_usuari');
+        $usuario->correu = $request->input('correu');
+        $usuario->nom = $request->input('nom');
+        $usuario->cognom = $request->input('cognom');
+        $usuario->actiu = $request->input('activo');
+        $usuario->tipus_usuaris_id = $request->input('tipus_usuaris_id');
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Usuaris  $usuaris
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Usuaris $usuaris)
-    {
-        //
-    }
+        // Verificar si se proporcionó una nueva contraseña
+        $nuevaContrasenya = $request->input('contrasenya');
+        if ($nuevaContrasenya) {
+            $usuario->contrasenya = bcrypt($nuevaContrasenya);
+        }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Usuaris  $usuaris
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Usuaris $usuaris)
-    {
-        //
-    }
+        $usuario->save();
+        
+        return redirect()->action([UsuarisController::class, 'index']);
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Usuaris  $usuaris
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Usuaris $usuaris)
-    {
-        //
+    } catch (Exception $e) {
+        echo "Error: " . $e->getMessage();
     }
+}
+
+    
+    
+
+        
+    public function destroy(Request $request, $usuari)
+    {
+        $usuario = Usuari::findOrFail($usuari);
+
+        try {
+    
+            $usuario->delete();
+            $request->session()->flash('mensaje', 'El usuario ha sido eliminado correctamente.');
+        } catch (QueryException $ex) {
+            $mensaje = Utilitat::errorMessage($ex);
+            $request->session()->flash('error', $mensaje);
+        }
+    
+        return redirect()->action([UsuarisController::class, 'index']);
+    }
+    
+    
+    
 }
