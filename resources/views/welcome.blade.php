@@ -19,6 +19,8 @@
         <div class="collapse navbar-collapse text-light" id="navbarNavDropdown">
             <ul class="navbar-nav">
                 <!-- Main data menu -->
+                @if(Auth::check() && Auth::user()->tipus_usuaris->tipus == 'Administrador')
+')
                 <li class="nav-item dropdown text-light">
                     <a class="nav-link dropdown-toggle text-light" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         Master Data
@@ -26,6 +28,7 @@
                     <ul class="dropdown-menu bg-body-emphasis text-light">
                         <li><a class="dropdown-item" href="#">User Types</a></li>
                         <li><a class="dropdown-item" href="{{ url('usuari') }}">Users</a></li>
+                        <li><a class="dropdown-item" href="{{ url('/login') }}">Login</a></li>
                         <li><a class="dropdown-item" href="#">Cycles</a></li>
                         <li><a class="dropdown-item" href="#">Modules</a></li>
                         <li class="divider"></li>
@@ -35,8 +38,10 @@
                         <li><a class="dropdown-item" href="#">Evaluation Criteria</a></li>
                     </ul>
                 </li>
+                @endif
 
                 <!-- Professors menu -->
+                @if(Auth::check() && Auth::user()->tipus_usuaris->tipus == 'Professor')
                 <li class="nav-item dropdown text-light bg-body-emphasis">
                     <a class="nav-link dropdown-toggle text-light" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         Professors
@@ -49,11 +54,14 @@
                         <li><a class="dropdown-item" href="#">Student Self-assessment</a></li>
                     </ul>
                 </li>
+                @endif
 
                 <!-- Students menu -->
+                @if(Auth::check() && Auth::user()->tipus_usuaris->tipus == 'Alumne')
                 <li class="nav-item">
                     <a class="nav-link text-light" href="#">Students</a>
                 </li>
+                @endif
             </ul>
         </div>
 

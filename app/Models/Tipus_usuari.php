@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Tipus_usuari extends Model
 {
+
+    
     use HasFactory;
     protected $table = 'tipus_usuaris';
     //protected $primaryKey = 'id';
