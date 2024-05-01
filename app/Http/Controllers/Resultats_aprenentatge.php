@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\resultats_aprenentatge;
+use App\Models\Resultats_aprenentatge;
 use Illuminate\Http\Request;
 
 class ResultatsAprenentatgeController extends Controller

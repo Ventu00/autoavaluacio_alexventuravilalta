@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Api\ResultatsAprenentatgeController;
+use App\Http\Controllers\Api\resultatsAprenentatgeController;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class ResultatsAprenentatgeController extends Controller
+class resultatsAprenentatgeController extends Controller
 {
     /**
      * Display a listing of the resource.
