@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Api\resultatsAprenentatgeController;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class resultatsAprenentatgeController extends Controller
+class Resultats_aprenentatge extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,7 +14,8 @@ class resultatsAprenentatgeController extends Controller
      */
     public function index()
     {
-        //
+        $resultats = Resultats_aprenentatge::all();
+        return ResultatsResource::collection($resultats);
     }
 
     /**
@@ -32,10 +32,10 @@ class resultatsAprenentatgeController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\ResultatsAprenentatgeController  $resultatsAprenentatgeController
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(ResultatsAprenentatgeController $resultatsAprenentatgeController)
+    public function show($id)
     {
         //
     }
@@ -44,10 +44,10 @@ class resultatsAprenentatgeController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\ResultatsAprenentatgeController  $resultatsAprenentatgeController
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, ResultatsAprenentatgeController $resultatsAprenentatgeController)
+    public function update(Request $request, $id)
     {
         //
     }
@@ -55,10 +55,10 @@ class resultatsAprenentatgeController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\ResultatsAprenentatgeController  $resultatsAprenentatgeController
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(ResultatsAprenentatgeController $resultatsAprenentatgeController)
+    public function destroy($id)
     {
         //
     }

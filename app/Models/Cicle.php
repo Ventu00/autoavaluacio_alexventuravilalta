@@ -15,7 +15,7 @@ class Cicle extends Model
     
     public function moduls()
     {
-        return $this->hasMany(Moduls::class, 'cicles_id');
+        return $this->hasMany(Modul::class, 'cicles_id');
     }
 
 }

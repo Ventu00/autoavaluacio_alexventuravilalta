@@ -34,7 +34,6 @@ Route::get('/login', [UsuarisController::class, 'showLogin'])->name('login');
 Route::post('/login', [UsuarisController::class, 'login']);
 
 
-Route::resource('resultats',Resultats_aprenentatge::class);
 
 
 
