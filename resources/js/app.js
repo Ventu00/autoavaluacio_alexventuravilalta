@@ -1,4 +1,12 @@
-import './bootstrap';
-import 'bootstrap/dist/css/bootstrap.css';
+// app.js
 
-import * as bootstrap from 'bootstrap'
+// Importa Bootstrap y el CSS de Bootstrap
+import './bootstrap';
+import * as bootstrap from 'bootstrap';
+import {createApp} from 'vue'
+
+import autoevaluacionAlumnos from '../components/autoevaluacionAlumnos.vue';
+
+createApp(autoevaluacionAlumnos).mount('#autoevaluacionAlumnos')
+
+
