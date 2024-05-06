@@ -27,19 +27,60 @@ class ModulsController extends Controller
      */
 
 
-     public function matricularUsuario(Modulo $moduls, Usuario $usuari)
+     public function matricular(Request $request, $modulId)
      {
-         $moduls->usuarios()->attach($usuari->id);
-         
-         return response()->json(['message' => 'Usuario matriculado en el módulo']);
-     }
+         $request->validate([
+             'usuari_id' => 'required|exists:usuaris,id',
+         ]);
  
-     public function desmatricularUsuario(Modulo $moduls, Usuario $usuari)
-     {
-         $moduls->usuarios()->detach($usuari->id);
-         
-         return response()->json(['message' => 'Usuario desmatriculado del módulo']);
+         $modul = Modul::findOrFail($modulId);
+         $usuariId = $request->input('usuari_id');
+ 
+         // Verificar si el usuario ya está matriculado en el módulo
+         if ($modul->usuaris->contains($usuariId)) {
+             return response()->json(['message' => 'El usuario ya está matriculado en este módulo.'], 400);
+         }
+ 
+         // Matricular al usuario en el módulo
+         $modul->usuaris()->attach($usuariId);
+ 
+         return response()->json(['message' => 'Usuario matriculado en el módulo exitosamente.']);
      }
+
+     public function desmatricular(Request $request, $modulId)
+     {
+         $request->validate([
+             'usuari_id' => 'required|exists:usuaris,id',
+         ]);
+ 
+         $modul = Modul::findOrFail($modulId);
+         $usuariId = $request->input('usuari_id');
+ 
+         // Verificar si el usuario está matriculado en el módulo
+         if (!$modul->usuaris->contains($usuariId)) {
+             return response()->json(['message' => 'El usuario no está matriculado en este módulo.'], 400);
+         }
+ 
+         // Desmatricular al usuario del módulo
+         $modul->usuaris()->detach($usuariId);
+ 
+         return response()->json(['message' => 'Usuario desmatriculado del módulo exitosamente.']);
+     }
+
+
+    //  public function matricularUsuario(Modulo $moduls, Usuario $usuari)
+    //  {
+    //      $moduls->usuarios()->attach($usuari->id);
+         
+    //      return response()->json(['message' => 'Usuario matriculado en el módulo']);
+    //  }
+ 
+    //  public function desmatricularUsuario(Modulo $moduls, Usuario $usuari)
+    //  {
+    //      $moduls->usuarios()->detach($usuari->id);
+         
+    //      return response()->json(['message' => 'Usuario desmatriculado del módulo']);
+    //  }
 
 
 

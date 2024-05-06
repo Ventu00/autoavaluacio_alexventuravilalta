@@ -24,6 +24,12 @@ use App\Http\Controllers\Api\CicleController;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::put('criteris/actualizarNota/user/{usuaris_id}/criteris/{criteris_avaluacio_id}', [CriterisAutoavaluacioController::class, 'actualizarNota']);
+Route::post('moduls/matricular/user/{usuaris_id}/moduls/{moduls_id}', [ModulsController::class, 'matricular']);
+Route::post('moduls/desmatricular/user/{usuaris_id}/moduls/{moduls_id}', [ModulsController::class, 'desmatricular']);
+
+
 Route::apiResource('usuari',UsuarisController::class);
 Route::apiResource('resultats',Resultats_aprenentatge::class);
 Route::apiResource('criteris',CriterisAutoavaluacioController::class);

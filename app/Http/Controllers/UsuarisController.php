@@ -59,6 +59,9 @@ public function logout(){
         return view('usuaris\create');
     }
 
+
+
+
     public function store(Request $request)
     {
         try {
