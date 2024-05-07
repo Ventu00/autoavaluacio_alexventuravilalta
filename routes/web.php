@@ -27,6 +27,8 @@ Route::get('/', function () {
 Route::get('/autoevaluacion', function () {
     return view('/AutoevaluacionAlumnos/index');
 });
+
+
 Route::resource('usuari',UsuarisController::class);
 Route::resource('Tipus_usuari',TipusUsuarisController::class);
 Route::post('/usuarios', [UsuarisController::class, 'store']);

@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Models\Usuari;
+use App\Models\Rubriques;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Resources\UsuariResource;
+use App\Http\Resources\RubriquesResource;
 
-class UsuarisController extends Controller
+class RubriquesController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,19 +16,10 @@ class UsuarisController extends Controller
      */
     public function index()
     {
-        $usuari = Usuari::all();
-        return UsuariResource::collection($usuari); 
+        $rubriques = Rubriques::all();
+        return RubriquesResource::collection($rubriques); 
     }
 
-
-
-    public function usuarisModuls($id)
-    {
-        $usuari = Usuari::findOrFail($id);
-        $moduls = $usuari->modules()->get(); // Assuming you have a relationship defined in your Usuari model
-
-        return response()->json($moduls);
-    }
     /**
      * Store a newly created resource in storage.
      *
@@ -39,12 +30,6 @@ class UsuarisController extends Controller
     {
         //
     }
-
-
-
-
-
-
 
     /**
      * Display the specified resource.
