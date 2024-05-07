@@ -70,6 +70,14 @@
 </nav>
     <br>
     <h1>Bienvenido, {{ $user->nom }}</h1>
+    <h3 id="id">{{$user->id}}</h3>
     <p>¡Has iniciado sesión correctamente!</p>
 </body>
 </html>
+<script>
+    // Obtenemos el ID del usuario desde el elemento HTML
+    const userId = document.getElementById('id').textContent;
+
+    // Guardamos el ID del usuario en el almacenamiento local
+    localStorage.setItem('userId', userId);
+</script>

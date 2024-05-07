@@ -2,13 +2,25 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Models\Rubriques;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Resources\RubriquesResource;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\Api\LoggedUser;
 
-class RubriquesController extends Controller
+class LoggedUser extends Controller
 {
+
+
+    public function getLoggedUser(Request $request)
+    {
+        if (Auth::check()) {
+            $user= Auth::user();
+            return response()->json($user, 200);
+        } else {
+            return response()->json(['error' => 'User not logged in'], 401);
+        }
+    }
+    
     /**
      * Display a listing of the resource.
      *
@@ -16,16 +28,7 @@ class RubriquesController extends Controller
      */
     public function index()
     {
-        $rubriques = Rubriques::all();
-        return RubriquesResource::collection($rubriques); 
-    }
-
-    public function getRubricasByModulo($moduloId)
-    {
-        // Obtener las rúbricas asociadas al módulo seleccionado
-        $rubricas = Rubrica::where('modulo_id', $moduloId)->get();
-
-        return response()->json($rubricas, 200);
+        //
     }
 
     /**

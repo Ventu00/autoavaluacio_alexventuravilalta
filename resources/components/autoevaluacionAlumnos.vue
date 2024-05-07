@@ -5,7 +5,7 @@
     <div>
       <label for="modulo">Seleccione un módulo:</label>
       <select v-model="selectedModulo" @change="cargarRubricas">
-        <option v-for="modulo in modulos" :key="modulo.id" :value="modulo.id">{{ modulo.nombre }}</option>
+        <option v-for="modulo in modulos" :key="modulo.id" :value="modulo.id">{{ modulo.nom }}</option>
       </select>
     </div>
 
@@ -46,36 +46,31 @@ export default {
   methods: {
     async cargarModulos() {
       try {
-        // Cambiando la ruta para obtener los módulos del usuario
-        const response = await axios.get(`/usuari/${this.userId}/moduls`);
+        // Obtener el ID del usuario del local storage
+        const userId = localStorage.getItem('userId');
+
+        // Realizar la solicitud a la API utilizando el ID del usuario
+        const response = await axios.get(`/autoavaluacio_alexventuravilalta/public/api/usuarios/${userId}/modulos`);
         this.modulos = response.data;
       } catch (error) {
         console.error('Error al cargar los módulos:', error);
       }
     },
     async cargarRubricas() {
-      if (!this.selectedModulo) return;
-      try {
-        // Cambiando la ruta para obtener las rúbricas por módulo
-        const response = await axios.get(`/moduls/${this.selectedModulo}/resultats`);
+    if (!this.selectedModulo) return;
+    try {
+        const response = await axios.get(`/autoavaluacio_alexventuravilalta/public/api/modulos/${this.selectedModulo}/rubricas`);
         this.rubricas = response.data;
-      } catch (error) {
+    } catch (error) {
         console.error('Error al cargar las rúbricas:', error);
-      }
-    },
+    }
+}
+,
     async evaluarRubrica(rubricaId) {
-      // Implementa la lógica de evaluación aquí
+      // Implementar la lógica de evaluación aquí
     },
     enviarAutoevaluacion() {
-      // Implementa la lógica de envío de autoevaluación aquí
-    }
-  },
-  computed: {
-    userId() {
-      // Aquí obtén el ID del usuario autenticado
-      // Puedes obtenerlo de tu sistema de autenticación (por ejemplo, Vuex)
-      // o pasarlo como una propiedad si se encuentra en la URL o en el almacenamiento local.
-      return 1; // Ejemplo: retorna el ID 1
+      // Implementar la lógica de envío de autoevaluación aquí
     }
   }
 };

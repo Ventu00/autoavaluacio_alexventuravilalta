@@ -2,11 +2,12 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\LoggedUser;
+use App\Http\Controllers\Api\CicleController;
+use App\Http\Controllers\Api\ModulsController;
 use App\Http\Controllers\Api\UsuarisController;
 use App\Http\Controllers\Api\Resultats_aprenentatge;
 use App\Http\Controllers\Api\CriterisAutoavaluacioController;
-use App\Http\Controllers\Api\ModulsController;
-use App\Http\Controllers\Api\CicleController;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,7 +29,17 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::put('criteris/actualizarNota/user/{usuaris_id}/criteris/{criteris_avaluacio_id}', [CriterisAutoavaluacioController::class, 'actualizarNota']);
 Route::post('moduls/matricular/user/{usuaris_id}/moduls/{moduls_id}', [ModulsController::class, 'matricular']);
 Route::post('moduls/desmatricular/user/{usuaris_id}/moduls/{moduls_id}', [ModulsController::class, 'desmatricular']);
-Route::get('usuari/usuarisModuls/user/{moduls_id}/usuari/{usuari_id}', [UsuarisController::class, 'usuarisModuls']);
+
+Route::get('/usuarios/{usuario}/modulos', [UsuarisController::class, 'modulosMatriculados']);
+Route::get('/modulos/{moduloId}/rubricas', [RubriquesController::class, 'getRubricasByModulo']);
+
+Route::get('/logged-user', [LoggedUser::class, 'getLoggedUser']);
+
+
+Route::middleware('auth:sanctum')->get('/logged-user', [LoggedUser::class, 'getLoggedUser']);
+
+
+// Route::get('usuari/usuarisModuls/user/{moduls_id}/usuari/{usuari_id}', [UsuarisController::class, 'usuarisModuls']);
 
 
 Route::apiResource('usuari',UsuarisController::class);

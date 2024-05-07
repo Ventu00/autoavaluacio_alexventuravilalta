@@ -28,13 +28,17 @@ public function login(Request $request) {
 
     if ($user != null && Hash::check($password, $user->contrasenya) ) { //el error esta en que no accede al home
        Auth::login($user);
+
        $response = redirect('/home');
+
+     
     }else {
         $request->session()->flash('error', 'Usuario o contraseña incorrectos');
         $response = redirect('/login')->withInput();
     }
     return $response;
 }
+
 public function logout(){
     Auth::logout();
     return redirect('/login');
