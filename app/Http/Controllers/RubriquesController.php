@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Rubriques;
 use Illuminate\Http\Request;
+use App\Http\Controllers\RubriquesController;
 
 class RubriquesController extends Controller
 {

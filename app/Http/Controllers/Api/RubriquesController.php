@@ -6,6 +6,7 @@ use App\Models\Rubriques;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\RubriquesResource;
+use App\Http\Controllers\Api\RubriquesController;
 
 class RubriquesController extends Controller
 {
@@ -23,10 +24,11 @@ class RubriquesController extends Controller
     public function getRubricasByModulo($moduloId)
     {
         // Obtener las rúbricas asociadas al módulo seleccionado
-        $rubricas = Rubrica::where('modulo_id', $moduloId)->get();
-
+        $rubricas = Rubriques::where('modulo_id', $moduloId)->get();
+    
         return response()->json($rubricas, 200);
     }
+    
 
     /**
      * Store a newly created resource in storage.
