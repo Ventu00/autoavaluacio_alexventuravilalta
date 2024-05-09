@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Resultats_aprenentatge;
 use Illuminate\Http\Request;
+use App\Models\Resultats_aprenentatge;
+use App\Http\Controllers\ResultatsAprenentatgeController;
 
 class ResultatsAprenentatgeController extends Controller
 {

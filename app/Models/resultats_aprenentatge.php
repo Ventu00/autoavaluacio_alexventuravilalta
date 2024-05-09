@@ -22,10 +22,19 @@ class Resultats_aprenentatge extends Model
         return $this->hasMany(Criteris_avaluacions::class, 'resultats_aprenentatge_id');
     }
 
-    public function modul()
-    {
-        return $this->belongsTo(Modul::class, 'moduls_id');
-    }
+    public function obtenerCritersiAvaluacioDetallados()
+{
+    // Obtener los criterios de evaluación asociados al resultado de aprendizaje
+    $criterisAvaluacio = $this->criteris_avaluacions()->with('rubriquess')->get();
+
+    // Retornar los criterios de evaluación detallados
+    return $criterisAvaluacio;
+}
+
+    // public function modul()
+    // {
+    //     return $this->belongsTo(Modul::class, 'moduls_id');
+    // }
     
     
 

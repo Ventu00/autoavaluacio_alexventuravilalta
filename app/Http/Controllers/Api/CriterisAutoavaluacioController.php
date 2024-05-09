@@ -49,6 +49,35 @@ class CriterisAutoavaluacioController extends Controller
         }
     }
 
+    public function notasUsuariosPorCriterio($criterioId, $usuarioId)
+    {
+        try {
+            // Verificar si el criterio de evaluación existe
+            $criterio = Criteris_avaluacions::findOrFail($criterioId);
+    
+            // Verificar si el usuario existe
+            $usuario = Usuari::findOrFail($usuarioId);
+    
+            // Obtener la nota del usuario para el criterio de evaluación específico
+            $nota = $usuario->criteris_avaluacio()
+                ->where('criteris_avaluacio_id', $criterioId)
+                ->pluck('nota')
+                ->first();
+    
+            // Retornar la nota del usuario para el criterio de evaluación específico
+            return response()->json(['nota' => $nota], 200);
+        } catch (\Exception $e) {
+            // Manejo de errores
+            return response()->json(['message' => 'Error al recuperar la nota del usuario para el criterio de evaluación.'], 500);
+        }
+    }
+    
+    
+
+
+
+    
+
     /**
      * Display the specified resource.
      *

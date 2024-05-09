@@ -29,6 +29,10 @@ Route::get('/autoevaluacion', function () {
 });
 
 
+Route::get('/profe', function () {
+    return view('/profevista/index');
+});
+
 Route::resource('usuari',UsuarisController::class);
 Route::resource('Tipus_usuari',TipusUsuarisController::class);
 Route::post('/usuarios', [UsuarisController::class, 'store']);

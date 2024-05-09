@@ -15,6 +15,7 @@ class Criteris_avaluacions extends Model
     public $timestamps = false;
 
 
+
     public function rubriquess()
     {
         return $this->hasMany(Rubriques::class, 'criteris_avaluacio_id');

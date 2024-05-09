@@ -2,30 +2,52 @@
   <div class="autoevaluacion-alumnos">
     <h1>Autoevaluación de Alumnos</h1>
     <!-- Selector de módulos -->
-    <div>
+    <div class="form-group">
       <label for="modulo">Seleccione un módulo:</label>
-      <select v-model="selectedModulo" @change="cargarRubricas">
+      <select class="form-control" v-model="selectedModulo" @change="cargarResultats">
         <option v-for="modulo in modulos" :key="modulo.id" :value="modulo.id">{{ modulo.nom }}</option>
       </select>
     </div>
 
     <!-- Lista de resultados de aprendizaje -->
-    <div v-if="rubricas.length > 0">
+    <div v-if="resultatsap.length > 0">
       <h2>Rúbrica de Resultados de Aprendizaje</h2>
-      <ul>
-        <li v-for="rubrica in rubricas" :key="rubrica.id">
-          <h3>{{ rubrica.nombre }}</h3>
-          <p>{{ rubrica.descripcion }}</p>
-          <button @click="evaluarRubrica(rubrica.id)">Evaluar</button>
+      <ul class="list-group">
+        <li v-for="resultatsa in resultatsap" :key="resultatsa.id" class="list-group-item">
+          <h3>{{ resultatsa.nombre }}</h3>
+          <p>{{ resultatsa.descripcio }}</p>
+          <!-- Lista de criterios de evaluación -->
+          <ul v-if="resultatsa.criterisAvaluacio && resultatsa.criterisAvaluacio.length > 0" class="list-group">
+            <li v-for="criteri in resultatsa.criterisAvaluacio" :key="criteri.id" class="list-group-item">
+              <h4>{{ criteri.descripcio }}</h4>
+              <!-- Lista de rubricas -->
+              <ul v-if="criteri.rubriquess && criteri.rubriquess.length > 0" class="list-group">
+                <li v-for="rubrica in criteri.rubriquess" :key="rubrica.id" class="list-group-item">
+                  <p>{{ rubrica.descripcio }}</p>
+                  <!-- Aquí puedes mostrar más detalles de la rubrica si lo necesitas -->
+                </li>
+              </ul>
+              <!-- Mostrar notas de los usuarios -->
+              <ul class="list-group">
+                <li v-for="usuario in usuariosConNotas[criteri.id]" :key="usuario.id" class="list-group-item">
+                  <p>{{ usuario.nom }} {{ usuario.cognom }}Nota Actual: {{ usuario.nota }}</p>
+                  <!-- Input para agregar nueva nota -->
+                  <input type="number" class="form-control" v-model="usuario.nuevaNota" min="0" max="3">
+                  <!-- Botón de evaluar -->
+                  <button @click="evaluar(resultatsa.id, usuario.id, criteri.id, usuario.nuevaNota)" class="btn btn-primary">Evaluar</button>
+                </li>
+              </ul>
+              <p v-if="!usuariosConNotas[criteri.id] || usuariosConNotas[criteri.id].length === 0">Nota: 0</p>
+            </li>
+          </ul>
         </li>
       </ul>
     </div>
     <div v-else>
-      <p>No hay rúbricas disponibles para este módulo.</p>
+      <p class="alert alert-warning">No hay resultados disponibles para este módulo.</p>
     </div>
 
     <!-- Botón de enviar autoevaluación -->
-    <button @click="enviarAutoevaluacion">Enviar Autoevaluación</button>
   </div>
 </template>
 
@@ -37,7 +59,8 @@ export default {
     return {
       selectedModulo: null,
       modulos: [], // Aquí se cargarán los módulos del usuario
-      rubricas: [], // Aquí se cargarán las rúbricas del módulo seleccionado
+      resultatsap: [], // Aquí se cargarán las rúbricas del módulo seleccionado
+      usuariosConNotas: {}, // Aquí se almacenarán las notas de los usuarios para cada criterio
     };
   },
   mounted() {
@@ -46,36 +69,74 @@ export default {
   methods: {
     async cargarModulos() {
       try {
-        // Obtener el ID del usuario del local storage
         const userId = localStorage.getItem('userId');
-
-        // Realizar la solicitud a la API utilizando el ID del usuario
         const response = await axios.get(`/autoavaluacio_alexventuravilalta/public/api/usuarios/${userId}/modulos`);
         this.modulos = response.data;
       } catch (error) {
         console.error('Error al cargar los módulos:', error);
       }
     },
-    async cargarRubricas() {
-    if (!this.selectedModulo) return;
-    try {
-        const response = await axios.get(`/autoavaluacio_alexventuravilalta/public/api/modulos/${this.selectedModulo}/rubricas`);
-        this.rubricas = response.data;
-    } catch (error) {
-        console.error('Error al cargar las rúbricas:', error);
-    }
-}
-,
-    async evaluarRubrica(rubricaId) {
-      // Implementar la lógica de evaluación aquí
+    async cargarResultats() {
+      if (!this.selectedModulo) return;
+      try {
+        const response = await axios.get(`http://localhost/autoavaluacio_alexventuravilalta/public/api/moduls/${this.selectedModulo}/resultatsaprenentatges`);
+        this.resultatsap = response.data;
+
+        // Iterar sobre los resultados de aprendizaje
+        for (const resultatsa of this.resultatsap) {
+          const criterisResponse = await axios.get(`http://localhost/autoavaluacio_alexventuravilalta/public/api/resultats/${resultatsa.id}/criterisAvaluacio`);
+          const criterisAvaluacio = criterisResponse.data.criterisAvaluacio;
+
+          // Asignar los criterios de evaluación al resultado de aprendizaje
+          resultatsa.criterisAvaluacio = criterisAvaluacio;
+
+          // Inicializar la nota en 0 para cada criterio
+          for (const criteri of criterisAvaluacio) {
+            criteri.nota = 0;
+          }
+
+          // Obtener las notas de los usuarios para cada criterio
+          await this.obtenerNotasUsuariosPorCriterio(criterisAvaluacio);
+        }
+
+        console.log('Datos de resultados de aprendizaje:', this.resultatsap);
+      } catch (error) {
+        console.error('Error al cargar los resultados de aprendizaje:', error);
+      }
     },
-    enviarAutoevaluacion() {
-      // Implementar la lógica de envío de autoevaluación aquí
-    }
+    async obtenerNotasUsuariosPorCriterio(criterisAvaluacio) {
+      for (const criteri of criterisAvaluacio) {
+        try {
+          const userId = localStorage.getItem('userId');
+          const response = await axios.get(`http://localhost/autoavaluacio_alexventuravilalta/public/api/criterios/${criteri.id}/usuarios/${userId}/nota`);
+          console.log('URL de solicitud:', `http://localhost/autoavaluacio_alexventuravilalta/public/api/criterios/${criteri.id}/usuarios/${userId}/nota`);
+          const nota = response.data.nota;
+          if (!this.usuariosConNotas[criteri.id]) {
+            this.usuariosConNotas[criteri.id] = [];
+          }
+          this.usuariosConNotas[criteri.id].push({ id: userId, nota, nuevaNota: 0 });
+        } catch (error) {
+          console.error('Error al obtener la nota:', error);
+        }
+      }
+    },
+    async evaluar(resultatsaId, usuarioId, criterioId, nuevaNota) {
+      try {
+        await axios.put(`http://localhost/autoavaluacio_alexventuravilalta/public/api/criteris/actualizarNota/user/${usuarioId}/criteris/${criterioId}`, { nota: nuevaNota });
+        console.log('Nota actualizada exitosamente.');
+      } catch (error) {
+        console.error('Error al actualizar la nota:', error);
+      }
+    },
   }
 };
 </script>
 
 <style scoped>
 /* Estilos CSS específicos para este componente */
+.autoevaluacion-alumnos {
+  background-color: #343a40;
+  color: #ffffff;
+  padding: 20px;
+}
 </style>

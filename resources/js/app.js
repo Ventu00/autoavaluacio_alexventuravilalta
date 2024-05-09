@@ -10,3 +10,6 @@ import autoevaluacionAlumnos from '../components/autoevaluacionAlumnos.vue';
 createApp(autoevaluacionAlumnos).mount('#autoevaluacionAlumnos')
 
 
+import profes from '../components/profes.vue';
+
+createApp(profes).mount('#profes')
