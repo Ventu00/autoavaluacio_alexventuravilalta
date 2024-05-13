@@ -41,7 +41,7 @@ class CriterisAutoavaluacioController extends Controller
 
         // Verificar si el usuario tiene asociado este criterio de evaluación
         if ($usuari->criteris_avaluacio->contains($criteris)) {
-            // Actualizar la nota del usuario para este criterio
+            // Actualizar la nota
             $usuari->criteris_avaluacio()->updateExistingPivot($criteris, ['nota' => $nota]);
             return response()->json(['message' => 'Nota actualizada exitosamente.']);
         } else {
@@ -52,22 +52,17 @@ class CriterisAutoavaluacioController extends Controller
     public function notasUsuariosPorCriterio($criterioId, $usuarioId)
     {
         try {
-            // Verificar si el criterio de evaluación existe
             $criterio = Criteris_avaluacions::findOrFail($criterioId);
-    
-            // Verificar si el usuario existe
             $usuario = Usuari::findOrFail($usuarioId);
     
-            // Obtener la nota del usuario para el criterio de evaluación específico
+            // Obtener la nota del usuario del criterio
             $nota = $usuario->criteris_avaluacio()
                 ->where('criteris_avaluacio_id', $criterioId)
-                ->pluck('nota')
-                ->first();
+                ->pluck('nota') // extraigo el valor de la columna nota
+                ->first();// devuelvo el primer valor que coincida o retorno nulo
     
-            // Retornar la nota del usuario para el criterio de evaluación específico
             return response()->json(['nota' => $nota], 200);
         } catch (\Exception $e) {
-            // Manejo de errores
             return response()->json(['message' => 'Error al recuperar la nota del usuario para el criterio de evaluación.'], 500);
         }
     }

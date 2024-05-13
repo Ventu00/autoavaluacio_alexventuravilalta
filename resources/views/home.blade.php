@@ -75,9 +75,7 @@
 </body>
 </html>
 <script>
-    // Obtenemos el ID del usuario desde el elemento HTML
     const userId = document.getElementById('id').textContent;
 
-    // Guardamos el ID del usuario en el almacenamiento local
     localStorage.setItem('userId', userId);
 </script>

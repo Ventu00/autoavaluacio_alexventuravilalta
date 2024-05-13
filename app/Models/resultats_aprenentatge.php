@@ -24,18 +24,13 @@ class Resultats_aprenentatge extends Model
 
     public function obtenerCritersiAvaluacioDetallados()
 {
-    // Obtener los criterios de evaluación asociados al resultado de aprendizaje
+    // Obtener los criterios de los resultados
     $criterisAvaluacio = $this->criteris_avaluacions()->with('rubriquess')->get();
 
-    // Retornar los criterios de evaluación detallados
     return $criterisAvaluacio;
 }
 
-    // public function modul()
-    // {
-    //     return $this->belongsTo(Modul::class, 'moduls_id');
-    // }
-    
+ 
     
 
 }

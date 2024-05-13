@@ -23,7 +23,7 @@ class RubriquesController extends Controller
 
     public function getRubricasByModulo($moduloId)
     {
-        // Obtener las rúbricas asociadas al módulo seleccionado
+        // Obtener las rúbricas  del modulo
         $rubricas = Rubriques::where('modulo_id', $moduloId)->get();
     
         return response()->json($rubricas, 200);

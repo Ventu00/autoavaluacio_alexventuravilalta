@@ -36,12 +36,11 @@ class ModulsController extends Controller
          $modul = Modul::findOrFail($modulId);
          $usuariId = $request->input('usuari_id');
  
-         // Verificar si el usuario ya está matriculado en el módulo
          if ($modul->usuaris->contains($usuariId)) {
              return response()->json(['message' => 'El usuario ya está matriculado en este módulo.'], 400);
          }
  
-         // Matricular al usuario en el módulo
+         // attach adjunta al usuario en el módulo
          $modul->usuaris()->attach($usuariId);
  
          return response()->json(['message' => 'Usuario matriculado en el módulo exitosamente.']);
@@ -56,31 +55,15 @@ class ModulsController extends Controller
          $modul = Modul::findOrFail($modulId);
          $usuariId = $request->input('usuari_id');
  
-         // Verificar si el usuario está matriculado en el módulo
          if (!$modul->usuaris->contains($usuariId)) {
              return response()->json(['message' => 'El usuario no está matriculado en este módulo.'], 400);
          }
  
-         // Desmatricular al usuario del módulo
+         // detach elimina al usuario del módulo
          $modul->usuaris()->detach($usuariId);
  
          return response()->json(['message' => 'Usuario desmatriculado del módulo exitosamente.']);
      }
-
-
-    //  public function matricularUsuario(Modulo $moduls, Usuario $usuari)
-    //  {
-    //      $moduls->usuarios()->attach($usuari->id);
-         
-    //      return response()->json(['message' => 'Usuario matriculado en el módulo']);
-    //  }
- 
-    //  public function desmatricularUsuario(Modulo $moduls, Usuario $usuari)
-    //  {
-    //      $moduls->usuarios()->detach($usuari->id);
-         
-    //      return response()->json(['message' => 'Usuario desmatriculado del módulo']);
-    //  }
 
 
 

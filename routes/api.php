@@ -41,13 +41,11 @@ Route::get('criterios/{criterioId}/usuarios/{usuarioId}/nota', [CriterisAutoaval
 Route::get('/usuarios/{nombreUsuario}/datos', [UsuarisController::class, 'mostrarDatosUsuario']);
 
 
-// Route::get('/logged-user', [LoggedUser::class, 'getLoggedUser']);
 
 
 Route::middleware('auth:sanctum')->get('/logged-user', [LoggedUser::class, 'getLoggedUser']);
 
 
-// Route::get('usuari/usuarisModuls/user/{moduls_id}/usuari/{usuari_id}', [UsuarisController::class, 'usuarisModuls']);
 
 
 Route::apiResource('usuari',UsuarisController::class);
@@ -56,5 +54,4 @@ Route::apiResource('criteris',CriterisAutoavaluacioController::class);
 Route::apiResource('moduls',ModulsController::class);
 Route::apiResource('cicle',CicleController::class);
 
-// Route::apiResource('resultats',ResultatsAprenentatgeController::class);
 

@@ -25,13 +25,12 @@ class UsuarisController extends Controller
 
     public function modulosMatriculados($usuarioId)
     {
-        // Buscar al usuario por su ID
         $usuario = Usuari::findOrFail($usuarioId);
 
-        // Obtener los módulos matriculados del usuario
+        // módulos  del usuario
         $modulosMatriculados = $usuario->moduls;
 
-        // Retornar la respuesta, por ejemplo, como JSON
+        
         return response()->json($modulosMatriculados);
     }
 
@@ -42,30 +41,28 @@ class UsuarisController extends Controller
 
     public function mostrarDatosUsuario($nombreUsuario)
 {
-    // Buscar el usuario por su nombre
     $usuario = Usuari::where('nom', $nombreUsuario)->first();
 
     if (!$usuario) {
         return response()->json(['error' => 'Usuario no encontrado'], 404);
     }
 
-    // Obtener los módulos en los que está matriculado el usuario
+    // módulos de usuario
     $modulos = $usuario->moduls;
 
-    // Inicializar un arreglo para almacenar los datos
     $datosUsuario = [];
 
-    // Iterar sobre los módulos del usuario
+    // Iterar modulos y obtenr resultados
     foreach ($modulos as $modulo) {
         $datosModulo = [
             'modulo' => $modulo,
             'resultados_aprendizaje' => [],
         ];
 
-        // Obtener los resultados de aprendizaje del módulo
+        // Obtener los resultados del módulo
         $resultadosAprendizaje = $modulo->resultatsaprenentatges;
 
-        // Iterar sobre los resultados de aprendizaje
+        // Iterar sobre los resultados y obtener criterios
         foreach ($resultadosAprendizaje as $resultado) {
             $datosResultado = [
                 'resultado_aprendizaje' => $resultado,
@@ -80,21 +77,18 @@ class UsuarisController extends Controller
                     ->pluck('nota')
                     ->first();
 
-                $criterio['nota'] = $nota;
-                $criteriosConNota[] = $criterio;
+                $criterio['nota'] = $nota; //añado a criterio la nota del usuario en ese criteiro
+                $criteriosConNota[] = $criterio;//aqui meto todos los criterios conla nota
             }
 
             $datosResultado['criterios'] = $criteriosConNota;
 
-            // Agregar los datos del resultado de aprendizaje al módulo
             $datosModulo['resultados_aprendizaje'][] = $datosResultado;
         }
 
-        // Agregar los datos del módulo al usuario
         $datosUsuario[] = $datosModulo;
     }
 
-    // Retornar los datos del usuario en formato JSON
     return response()->json($datosUsuario);
 }
 
@@ -102,13 +96,7 @@ class UsuarisController extends Controller
 
 
 
-    // public function usuarisModuls($id)
-    // {
-    //     $usuari = Usuari::findOrFail($id);
-    //     $moduls = $usuari->modules()->get(); // Assuming you have a relationship defined in your Usuari model
-
-    //     return response()->json($moduls);
-    // }
+   
     /**
      * Store a newly created resource in storage.
      *

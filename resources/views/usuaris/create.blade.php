@@ -9,7 +9,6 @@
 <body>
     <h1 class="mt-5">CRUD de Usuarios</h1>
         
-    <!-- Formulario para crear usuario -->
     <div class="card mt-4">
         <div class="card-header">Crear Usuario</div>
         <div class="card-body">
