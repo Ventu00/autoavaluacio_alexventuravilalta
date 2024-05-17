@@ -18,8 +18,10 @@ use App\Http\Controllers\TipusUsuarisController;
 |
 */
 
+//Al iniciar vermeos antes el login
+
 Route::get('/', function () {
-    return view('welcome');
+    return view('auth/login');
 });
 
 

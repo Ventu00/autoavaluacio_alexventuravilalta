@@ -1,13 +1,14 @@
 <template>
   <div class="autoevaluacion-alumnos">
     <h1>Autoevaluación de Alumnos</h1>
-    <!-- Selector de módulos -->
+    <!-- Select módulos -->
     <div class="form-group">
       <label for="modulo">Seleccione un módulo:</label>
       <select class="form-control" v-model="selectedModulo" @change="cargarResultats">
         <option v-for="modulo in modulos" :key="modulo.id" :value="modulo.id">{{ modulo.nom }}</option>
       </select>
     </div>
+<br/>
 
     <!-- Lista de resultados de aprendizaje -->
     <div v-if="resultatsap.length > 0">
@@ -24,16 +25,15 @@
               <ul v-if="criteri.rubriquess && criteri.rubriquess.length > 0" class="list-group">
                 <li v-for="rubrica in criteri.rubriquess" :key="rubrica.id" class="list-group-item">
                   <p>{{ rubrica.descripcio }}</p>
-                  <!-- Aquí puedes mostrar más detalles de la rubrica si lo necesitas -->
                 </li>
               </ul>
               <!-- Mostrar notas de los usuarios -->
               <ul class="list-group">
                 <li v-for="usuario in usuariosConNotas[criteri.id]" :key="usuario.id" class="list-group-item">
                   <p>{{ usuario.nom }} {{ usuario.cognom }}Nota Actual: {{ usuario.nota }}</p>
-                  <!-- Input para agregar nueva nota -->
+                  <!-- Input agregar nueva nota -->
                   <input type="number" class="form-control" v-model="usuario.nuevaNota" min="0" max="3">
-                  <!-- Botón de evaluar -->
+                  <br>
                   <button @click="evaluar(resultatsa.id, usuario.id, criteri.id, usuario.nuevaNota)" class="btn btn-primary">Evaluar</button>
                 </li>
               </ul>
@@ -46,8 +46,6 @@
     <div v-else>
       <p class="alert alert-warning">No hay resultados disponibles para este módulo.</p>
     </div>
-
-    <!-- Botón de enviar autoevaluación -->
   </div>
 </template>
 
@@ -58,9 +56,9 @@ export default {
   data() {
     return {
       selectedModulo: null,
-      modulos: [], // Aquí se cargarán los módulos del usuario
-      resultatsap: [], // Aquí se cargarán las rúbricas del módulo seleccionado
-      usuariosConNotas: {}, // Aquí se almacenarán las notas de los usuarios para cada criterio
+      modulos: [], 
+      resultatsap: [], 
+      usuariosConNotas: {}, 
     };
   },
   mounted() {
@@ -87,10 +85,10 @@ export default {
           const criterisResponse = await axios.get(`http://localhost/autoavaluacio_alexventuravilalta/public/api/resultats/${resultatsa.id}/criterisAvaluacio`);
           const criterisAvaluacio = criterisResponse.data.criterisAvaluacio;
 
-          // Asignar los criterios de evaluación al resultado de aprendizaje
+          // asignamos los criterios de evaluación al resultado 
           resultatsa.criterisAvaluacio = criterisAvaluacio;
 
-          // Inicializar la nota en 0 para cada criterio
+          // Inicializo la nota en 0
           for (const criteri of criterisAvaluacio) {
             criteri.nota = 0;
           }
@@ -133,7 +131,6 @@ export default {
 </script>
 
 <style scoped>
-/* Estilos CSS específicos para este componente */
 .autoevaluacion-alumnos {
   background-color: #343a40;
   color: #ffffff;

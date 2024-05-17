@@ -1,5 +1,7 @@
 <!DOCTYPE html>
 
+<!-- Plantilla principal del repte Etapa 1-->
+
 <html lang="en">
 <head>
 <link rel="icon" type="image/jpg" href="images/logo.ico"/>

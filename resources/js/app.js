@@ -1,10 +1,11 @@
-// app.js
+// Me he instalado bootstrap y lo he importado a la app ETAPA 1
 
-// Importa Bootstrap y el CSS de Bootstrap
+
 import './bootstrap';
 import * as bootstrap from 'bootstrap';
 import {createApp} from 'vue'
 
+//componentes Vue que usare
 import autoevaluacionAlumnos from '../components/autoevaluacionAlumnos.vue';
 
 createApp(autoevaluacionAlumnos).mount('#autoevaluacionAlumnos')
