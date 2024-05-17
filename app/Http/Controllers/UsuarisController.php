@@ -111,37 +111,38 @@ public function logout(){
     }
     
     public function update(Request $request, $usuari)
-{
-    try {
-        $usuario = Usuari::findOrFail($usuari);
-        
-        // Actualizar los campos con los nuevos valores del formulario
-        $usuario->nom_usuari = $request->input('nom_usuari');
-        $usuario->correu = $request->input('correu');
-        $usuario->nom = $request->input('nom');
-        $usuario->cognom = $request->input('cognom');
-        $usuario->actiu = $request->input('activo');
-        $usuario->tipus_usuaris_id = $request->input('tipus_usuaris_id');
-
-        // Verificar si se proporcionó una nueva contraseña
-        $nuevaContrasenya = $request->input('contrasenya');
-        if ($nuevaContrasenya) {
-            $usuario->contrasenya = bcrypt($nuevaContrasenya);
+    {
+        try {
+            $usuario = Usuari::findOrFail($usuari);
+    
+            $usuario->nom_usuari = $request->input('nom_usuari');
+            $usuario->correu = $request->input('correu');
+            $usuario->nom = $request->input('nom');
+            $usuario->cognom = $request->input('cognom');
+            
+            // Els que tinguin dades relacionades, s'han de poder possar inactius. ETAPA 2
+            $usuario->actiu = $request->has('activo') ? 1 : 0;
+            $usuario->tipus_usuaris_id = $request->input('tipus_usuaris_id');
+    
+            $nuevaContrasenya = $request->input('contrasenya');
+            if ($nuevaContrasenya) {
+                $usuario->contrasenya = bcrypt($nuevaContrasenya);
+            }
+    
+            $usuario->save();
+    
+            return redirect()->action([UsuarisController::class, 'index']);
+    
+        } catch (Exception $e) {
+            echo "Error: " . $e->getMessage();
         }
-
-        $usuario->save();
-        
-        return redirect()->action([UsuarisController::class, 'index']);
-
-    } catch (Exception $e) {
-        echo "Error: " . $e->getMessage();
     }
-}
+    
 
     
     
-
-        
+/*     Només es pòden esborrar usuaris si no tenen dades relacionades.ETAPA 2
+ */        
     public function destroy(Request $request, $usuari)
     {
         $usuario = Usuari::findOrFail($usuari);
@@ -150,9 +151,9 @@ public function logout(){
     
             $usuario->delete();
             $request->session()->flash('mensaje', 'El usuario ha sido eliminado correctamente.');
-        } catch (QueryException $ex) {
+        } catch (QueryException $ex) { // detecta los datos relacionados con la QUeryException
             $mensaje = Utilitat::errorMessage($ex);
-            $request->session()->flash('error', $mensaje);
+            $request->session()->flash('error', 'El usuario tiene datos relacionados');
         }
     
         return redirect()->action([UsuarisController::class, 'index']);

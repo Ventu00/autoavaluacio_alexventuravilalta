@@ -31,7 +31,6 @@
               <ul class="list-group">
                 <li v-for="usuario in usuariosConNotas[criteri.id]" :key="usuario.id" class="list-group-item">
                   <p>{{ usuario.nom }} {{ usuario.cognom }}Nota Actual: {{ usuario.nota }}</p>
-                  <!-- Input agregar nueva nota -->
                   <input type="number" class="form-control" v-model="usuario.nuevaNota" min="0" max="3">
                   <br>
                   <button @click="evaluar(resultatsa.id, usuario.id, criteri.id, usuario.nuevaNota)" class="btn btn-primary">Evaluar</button>
@@ -87,12 +86,10 @@ export default {
 
           // asignamos los criterios de evaluación al resultado 
           resultatsa.criterisAvaluacio = criterisAvaluacio;
-
           // Inicializo la nota en 0
           for (const criteri of criterisAvaluacio) {
             criteri.nota = 0;
           }
-
           // Obtener las notas de los usuarios para cada criterio
           await this.obtenerNotasUsuariosPorCriterio(criterisAvaluacio);
         }
@@ -109,7 +106,10 @@ export default {
           const response = await axios.get(`http://localhost/autoavaluacio_alexventuravilalta/public/api/criterios/${criteri.id}/usuarios/${userId}/nota`);
           console.log('URL de solicitud:', `http://localhost/autoavaluacio_alexventuravilalta/public/api/criterios/${criteri.id}/usuarios/${userId}/nota`);
           const nota = response.data.nota;
+                // Verificar si ya existe una entrada para este criterio en el objeto usuariosConNotas
           if (!this.usuariosConNotas[criteri.id]) {
+                    // Si no existe, crear una nueva entrada inicializándola como un arreglo vacío
+
             this.usuariosConNotas[criteri.id] = [];
           }
           this.usuariosConNotas[criteri.id].push({ id: userId, nota, nuevaNota: 0 });

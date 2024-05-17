@@ -5,13 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home</title>
     @vite(['resources/css/app.css','resources/css/app.scss', 'resources/js/app.js'])
-    <style>
-        body {
-            background-color: #121212;
-            color: #ffffff;
-        }
-      
-    </style>
+
 </head>
 <body>
 <nav class="navbar navbar-expand-lg">
@@ -85,3 +79,10 @@
     const userId = document.getElementById('id').textContent;
     localStorage.setItem('userId', userId);
 </script>
+<style>
+        body {
+            background-color: #121212;
+            color: #ffffff;
+        }
+      
+    </style>

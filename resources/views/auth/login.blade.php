@@ -5,26 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Iniciar sesión</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        body {
-            background-color: #343a40; 
-            color: #ffffff; 
-        }
-        .form-control {
-            background-color: #495057; 
-            color: #ffffff; 
-        }
-        .btn-primary {
-            background-color: #007bff; 
-            border-color: #007bff; 
-        }
-        .btn-secondary {
-            background-color: #6c757d;
-            border-color: #6c757d; 
-        .btn-primary, .btn-secondary {
-            color: #ffffff; 
-        }
-    </style>
+   
 </head>
 <body>
     <div class="container">
@@ -50,3 +31,23 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
+<style>
+        body {
+            background-color: #343a40; 
+            color: #ffffff; 
+        }
+        .form-control {
+            background-color: #495057; 
+            color: #ffffff; 
+        }
+        .btn-primary {
+            background-color: #007bff; 
+            border-color: #007bff; 
+        }
+        .btn-secondary {
+            background-color: #6c757d;
+            border-color: #6c757d; 
+        .btn-primary, .btn-secondary {
+            color: #ffffff; 
+        }
+    </style>

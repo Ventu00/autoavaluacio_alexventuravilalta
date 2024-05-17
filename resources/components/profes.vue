@@ -10,7 +10,7 @@
     <br>
     <div v-if="alumnoSeleccionado">
       <div v-for="modulo in alumnoSeleccionado.modulo" :key="modulo.id">
-        <h2>Modulos alumno: {{ modulo.nom }}</h2> <!-- Corregido aquí -->
+        <h2>Modulos alumno: {{ modulo.nom }}</h2> 
         <div class="resultados-aprendizaje">
           <div v-for="resultado in alumnoSeleccionado.resultados_aprendizaje" :key="resultado.resultado_aprendizaje.id">
             <div class="resultado-aprendizaje">
@@ -49,7 +49,8 @@ export default {
     this.alumnoSeleccionado = response.data[0];
     console.log('Alumno encontrado:', this.alumnoSeleccionado);
 
-    // Verificar si alumnoSeleccionado.modulo es un objeto y convertirlo en un array si es necesario
+    // Verificar si alumnoSeleccionado.modulo es un objeto y convertirlo en un array si es necesario. 
+    //Me ha dado problemas al iterar en el tempaltae
     if (this.alumnoSeleccionado && typeof this.alumnoSeleccionado.modulo === 'object' && !Array.isArray(this.alumnoSeleccionado.modulo)) {
       this.alumnoSeleccionado.modulo = [this.alumnoSeleccionado.modulo];
     }
@@ -72,7 +73,6 @@ export default {
 </script>
 
 <style scoped>
-/* Estilos CSS específicos para este componente */
 .profesor-view {
   background-color: #343a40;
   color: #ffffff;

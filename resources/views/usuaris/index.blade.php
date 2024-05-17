@@ -39,7 +39,7 @@
                     Trash
                 </button>
             </form>
-
+              <br>
             <form action="{{ route('usuarios.edit', ['usuario' => $usuario->id]) }}" method="GET">
     @csrf
     <button type="submit" class="btn btn-primary">

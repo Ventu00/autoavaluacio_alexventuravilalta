@@ -20,13 +20,18 @@
         </button>
         <div class="collapse navbar-collapse text-light" id="navbarNavDropdown">
             <ul class="navbar-nav">
-                <!-- Main data menu -->
-                @if(Auth::check() && Auth::user()->tipus_usuaris->tipus == 'Administrador')
-                <li class="nav-item dropdown text-light">
+
+            <!-- Els administradors només ha de poder accedir al menú de Dades Mestres.
+             Els professors només han de poder accedir al menú Professors. 
+             I els alumnes només han d'accedir al menú Alumnes. -->
+
+
+            @if(Auth::check() && Auth::user()->tipus_usuaris->tipus == 'Administrador')
+                <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle text-light" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         Master Data
                     </a>
-                    <ul class="dropdown-menu bg-body-emphasis text-light">
+                    <ul class="dropdown-menu">
                         <li><a class="dropdown-item" href="#">User Types</a></li>
                         <li><a class="dropdown-item" href="{{ url('usuari') }}">Users</a></li>
                         <li><a class="dropdown-item" href="{{ url('/login') }}">Login</a></li>
@@ -39,15 +44,13 @@
                         <li><a class="dropdown-item" href="#">Evaluation Criteria</a></li>
                     </ul>
                 </li>
-                @endif
-
-                <!-- Professors menu -->
-                @if(Auth::check() && Auth::user()->tipus_usuaris->tipus == 'Professor')
-                <li class="nav-item dropdown text-light bg-body-emphasis">
+            @endif
+            @if(Auth::check() && Auth::user()->tipus_usuaris->tipus == 'Professor')
+                <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle text-light" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         Professors
                     </a>
-                    <ul class="dropdown-menu text-light bg-body-emphasis">
+                    <ul class="dropdown-menu">
                         <li><a class="dropdown-item" href="#">Assign Students</a></li>
                         <li><a class="dropdown-item" href="#">Learning Outcomes</a></li>
                         <li><a class="dropdown-item" href="#">Evaluation Criteria</a></li>
@@ -55,14 +58,18 @@
                         <li><a class="dropdown-item" href="#">Student Self-assessment</a></li>
                     </ul>
                 </li>
-                @endif
-
-                <!-- Students menu -->
-                @if(Auth::check() && Auth::user()->tipus_usuaris->tipus == 'Alumne')
-                <li class="nav-item">
-                    <a class="nav-link text-light" href="#">Students</a>
+            @endif
+            @if(Auth::check() && Auth::user()->tipus_usuaris->tipus == 'Alumne')
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle text-light" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Student
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="{{ url('/autoevaluacion') }}">Self-assessments</a></li>
+                    </ul>
                 </li>
-                @endif
+            @endif
+
             </ul>
         </div>
 

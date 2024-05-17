@@ -18,14 +18,6 @@ use App\Http\Controllers\TipusUsuarisController;
 |
 */
 
-//Al iniciar vermeos antes el login
-
-Route::get('/', function () {
-    return view('auth/login');
-});
-
-
-
 Route::get('/autoevaluacion', function () {
     return view('/AutoevaluacionAlumnos/index');
 });
@@ -47,9 +39,32 @@ Route::post('/login', [UsuarisController::class, 'login']);
 
 
 
-Route::middleware(['auth'])->group(function(){
+use App\Http\Middleware\CheckUserType;
+
+
+// Un usuari no ha de poder accedir a cap funcionalitar de l'aplicació 
+// si no s'ha identificat.
+
+Route::get('/', function () {  //Al iniciar vermeos antes el login
+    return view('auth/login');
+});
+
+Route::middleware(['auth'])->group(function() {
     Route::get('/home', function () {
         $user = Auth::user();
         return view('home', compact('user'));
     });
+
+    Route::get('/autoevaluacion', function () {
+        return view('AutoevaluacionAlumnos.index');
+    })->middleware('checkusertype:Alumne');
+
+    Route::get('/profe', function () {
+        return view('profevista.index');
+    })->middleware('checkusertype:Professor'); 
+
+    Route::get('/usuarios', function () {
+        return view('usuaris.index');
+    })->middleware('checkusertype:Administrador'); 
 });
+

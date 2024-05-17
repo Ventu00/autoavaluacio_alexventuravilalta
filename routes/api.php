@@ -28,10 +28,14 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+//api evaluacion usuario
 Route::put('criteris/actualizarNota/user/{usuaris_id}/criteris/{criteris_avaluacio_id}', [CriterisAutoavaluacioController::class, 'actualizarNota']);
+
+//apis matricular y desmatricualr
 Route::post('moduls/matricular/user/{usuaris_id}/moduls/{moduls_id}', [ModulsController::class, 'matricular']);
 Route::post('moduls/desmatricular/user/{usuaris_id}/moduls/{moduls_id}', [ModulsController::class, 'desmatricular']);
 
+//apis obtener usuarios y sus modulos
 Route::get('/usuarios/{usuario}/modulos', [UsuarisController::class, 'modulosMatriculados']);
 Route::get('/modulos/{moduloId}/rubricas', [RubriquesController::class, 'getRubricasByModulo']);
 
