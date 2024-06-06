@@ -66,7 +66,9 @@ export default {
   methods: {
     async cargarModulos() {
       try {
-        const userId = localStorage.getItem('userId');
+        // const userId = localStorage.getItem('userId');
+        const userId = 24;
+
         const response = await axios.get(`/autoavaluacio_alexventuravilalta/public/api/usuarios/${userId}/modulos`);
         this.modulos = response.data;
       } catch (error) {
